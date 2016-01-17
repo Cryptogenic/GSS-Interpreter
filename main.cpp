@@ -1,4 +1,5 @@
-#include "stdio.h"
+#include <stdio.h>
+#include <string.h>
 #include "Utilities.h"
 
 using namespace std;
@@ -10,19 +11,19 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  if(!runChecks(argc, argv[1]))
+  if(!runChecks(argc, argv))
   {
     throwError();
     return -1;
   }
 
-  if (argv[1].find(".gss"))
+  if (strstr(argv[1], ".gss") != NULL)
   {
-    parseFile();
+    parseFile("test.gss");
   }
   else
   {
-    parseLine();
+    parseLine("echo 'test'");
   }
   return 0;
 }

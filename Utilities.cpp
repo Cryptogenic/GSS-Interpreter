@@ -1,12 +1,16 @@
+#include <stdio.h>
 #include "Utilities.h"
+
+int errorFlag;
+char* errorInformation;
 
 /*
    Function: runChecks
    Runs argument check and calls runSyntaxCheck to check syntax for correct-ness
 
    Parameters:
-      argCount - Number of arguments passed to program, "argc" in main.cpp
-      script   - Code to check for syntax checking, "argv[1]" in main.cpp
+      argCount  - Number of arguments passed to program, "argc" in main.cpp
+      arguments - Contains code to check and other arguments, "argv" in main.cpp
 
    Returns:
       True if syntax is correct and argCount is lower than 2, false otherwise
@@ -14,10 +18,13 @@
    See Also:
       runSyntaxCheck(char* script);
 */
-bool runChecks(int argCount, char* script)
+bool runChecks(int argCount, char *arguments[])
 {
-  if(argCount > 1)
+  if(argCount > 2 || argCount == 1)
+  {
+    errorFlag = ERR_INVALID_ARGS;
     return false;
+  }
   /* Run syntax check in next implement */
   return true;
 }
@@ -32,7 +39,7 @@ bool runChecks(int argCount, char* script)
    Returns:
       True if syntax is correct, false otherwise
 */
-bool runSyntaxCheck(char* script)
+bool runSyntaxCheck(const char* script)
 {
   /* To be implemented in next commit */
 }
@@ -44,7 +51,7 @@ bool runSyntaxCheck(char* script)
    Parameters:
       line   - Code to run
 */
-void parseLine(char* line)
+void parseLine(const char* line)
 {
   /* To be implemented in next commit */
 }
@@ -56,23 +63,23 @@ void parseLine(char* line)
    Parameters:
       fileName   - File containing code to run
 */
-void parseFile(char* fileName)
+void parseFile(const char* fileName)
 {
   /* To be implemented in next commit */
 }
 
 void throwError()
 {
-  char* errorDescription;
-  char* errorTechnicalInfo;
+  const char* errorDescription;
+  const char* errorTechnicalInfo;
 
   switch(errorFlag)
   {
-    case ERR_TOO_MANY_ARGS:
-      errorDescription = "The interpreter was called with too many arguments, usage: ./gss [script.gss/code to execute]"
-      errorTechnicalInfo = "--";
+    case ERR_INVALID_ARGS:
+      errorDescription = "The interpreter was called with an invalid number of arguments";
+      errorTechnicalInfo = "Usage: ./gss [script.gss/code]";
       break;
   }
 
-  printf("Error: GSS Script could not be run due to an unexpected error;\n\t%s\n%s\n", errorDescription, errorTechnicalInfo);
+  printf("Error:  GSS Script could not be run due to an unexpected error: \n\t%s\n\t%s\n", errorDescription, errorTechnicalInfo);
 }
