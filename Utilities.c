@@ -60,3 +60,19 @@ void parseFile(char* fileName)
 {
   /* To be implemented in next commit */
 }
+
+void throwError()
+{
+  char* errorDescription;
+  char* errorTechnicalInfo;
+
+  switch(errorFlag)
+  {
+    case ERR_TOO_MANY_ARGS:
+      errorDescription = "The interpreter was called with too many arguments, usage: ./gss [script.gss/code to execute]"
+      errorTechnicalInfo = "--";
+      break;
+  }
+
+  printf("Error: GSS Script could not be run due to an unexpected error;\n\t%s\n%s\n", errorDescription, errorTechnicalInfo);
+}
