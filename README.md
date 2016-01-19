@@ -1,11 +1,11 @@
 ## GSS (General Server Script) Interpreter
-The General Server Script interpreter is a new startup scripting language built off C. While enforcing strong typing without compromising usability, the syntax and functions will be consistent and clean to allow the language to maintain tidy-ness.
+The General Server Script interpreter is a new startup scripting language built off C++. While enforcing strong typing without compromising usability, the syntax and functions will be consistent and clean to allow the language to maintain tidy-ness.
 
 ## Motivation
 This project was more of a project for me to learn from, however I believe it can be used by others for the same purpose and possibly more.
 
 ## Latest Version
-The latest version is currently [alpha], more information will be available on this update in the mere future.
+The latest version is currently in the alpha development phase, more information will be available in the mere future.
 
 ## Documentation
 All documentation for GSS usage can be found in /docs.
