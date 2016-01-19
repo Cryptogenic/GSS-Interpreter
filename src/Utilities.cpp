@@ -17,12 +17,13 @@ std::string errorTechnical;
       True if syntax is correct and argCount is lower than 2, false otherwise
 
    See Also:
-      runSyntaxCheck(char* script);
+      runSyntaxCheck(std::string eval, bool isFile);
 */
 bool runChecks(int argCount, char* arguments[], bool isFile)
 {
   std::string codeLine;
 
+  // If we're interpreting a file we don't need more than one argument passed
   if(argCount != 2 && isFile)
   {
     errorFlag = ERR_INVALID_ARGS;
@@ -31,10 +32,13 @@ bool runChecks(int argCount, char* arguments[], bool isFile)
 
     errorTechnical = "Usage: ./gss [script.gss/`code to run`]";
 
-    return false;
     throwError();
+
+    return false;
   }
 
+  // If we don't have a file, we want to get all arguments in-case the line of
+  // code passed contains space characters
   if(!isFile)
   {
     for(int i = 1; i < argCount; i++)
@@ -52,8 +56,38 @@ bool runChecks(int argCount, char* arguments[], bool isFile)
 
 bool runSyntaxCheck(std::string eval, bool isFile)
 {
-  /* To be implemented in next commit, for now return false */
-  return false;
+  std::string line;
+  std::string code;
+
+  if(isFile)
+  {
+    std::ifstream infile(eval);
+
+    if(infile.is_open())
+    {
+      while(getline(infile, line))
+      {
+        code += line;
+      }
+    }
+    else
+    {
+      errorFlag = ERR_INVALID_FILE;
+      errorDescription = "The interpreter could not parse the file '" + eval + "'";
+
+      errorTechnical = "Usage: ./gss [script.gss/`code to run`]";
+
+      throwError();
+
+      return false;
+    }
+  }
+  else
+  {
+    code = eval;
+  }
+
+  return true;
 }
 
 /*
@@ -71,6 +105,9 @@ void throwError()
   {
     case ERR_INVALID_ARGS:
       errorTitle = "The interpreter encountered a fatal error: invalid arguments";
+      break;
+    case ERR_INVALID_FILE:
+      errorTitle = "The interpreter encountered a fatal error: file not found/corrupt";
       break;
   }
 
